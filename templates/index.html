@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="navbar">
+        <h1>NIFTY AND SENSEX DATA MODELLING</h1>
+    </div>
+    <div class="data-container">
+        <div class="data-card" id="USD/INR">
+            <h2>USD/INR</h2>
+            <p>Rs.{{ usd_inr }}</p>   
+        </div>
+
+        <div class="data-card" id="NIFTY">
+            <h2>NIFTY</h2>
+            <p>Rs.{{ nifty }}</p>
+        </div>
+    
+        <div class="data-card" id="SENSEX">
+            <h2>SENSEX</h2>
+            <p>Rs.{{ sensex }}</p>
+        </div>
+    </div>
+    <div class="data-container">
+        <form action="/generate_plots" method="post">
+            <label for="input_days">Input Number of Days:</label>
+            <input type="number" id="input_days" name="input_days" required min="1">
+            <button type="submit">Generate Plots</button>
+        </form>        
+
+        {% if nifty_plot %}
+            <h2>NIFTY Predictions</h2>
+            <img src="{{ nifty_plot }}" alt="NIFTY Plot">
+        {% endif %}
+
+        {% if sensex_plot %}
+            <h2>SENSEX Predictions</h2>
+            <img src="{{ sensex_plot }}" alt="SENSEX Plot">
+        {% endif %}
+
+        <!-- Add these sections to display the forecasted values -->
+        {% if nifty_forecast %}
+            <h2>NIFTY Forecasted Values</h2>
+            <ul>
+                {% for value in nifty_forecast %}
+                    <li>{{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% if sensex_forecast %}
+            <h2>SENSEX Forecasted Values</h2>
+            <ul>
+                {% for value in sensex_forecast %}
+                    <li>{{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
+    </div> 
+</body>
+</html>
